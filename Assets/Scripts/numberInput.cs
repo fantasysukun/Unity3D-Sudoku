@@ -21,10 +21,15 @@ public class numberInput : MonoBehaviour {
             if (map.easy[row, column] == 0)
             {
                 text.text = "";
+                inputs[i].GetComponent<Menu>().value = 0;
+                inputs[i].GetComponent<Menu>().changable = true;
+                inputs[i].GetComponent<Image>().color = new Color(0, 1, 0, 0.5f);
             }
             else
             {
                 text.text = map.easy[row, column].ToString();
+                inputs[i].GetComponent<Menu>().value = map.easy[row, column];
+                inputs[i].GetComponent<Menu>().changable = false;
             }
             
             column++;

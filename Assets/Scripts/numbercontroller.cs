@@ -4,14 +4,15 @@ using UnityEngine.UI;
 
 public class numbercontroller : MonoBehaviour {
 
-    public Button selectedObject;
+    public static Button selectedObject;
+    public Button firstObject;
     public int position;
     public int arrayPosition = 0;
-    public bool isOpen = false;
+    public static bool isOpen = false;
 
     // Use this for initialization
     void Start () {
-
+        selectedObject = firstObject;
         position = selectedObject.GetComponent<Menu>().Location;
 
         selectedObject.image.color = new Color(255,255,255,255);
@@ -22,7 +23,8 @@ public class numbercontroller : MonoBehaviour {
           if (!isOpen) { 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    selectedObject.image.color = new Color(255, 255, 255, 0);
+                    changeColor();
+
                     if (position % 10 > 0)
                     {
                         selectedObject = numberInput.inputs[arrayPosition - 1].GetComponent<Button>();
@@ -41,8 +43,8 @@ public class numbercontroller : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    selectedObject.image.color = new Color(255, 255, 255, 0);
-                    if (position % 10 < 8)
+                    changeColor();
+                     if (position % 10 < 8)
                     {
                         selectedObject = numberInput.inputs[arrayPosition + 1].GetComponent<Button>();
                         position = position + 1;
@@ -60,7 +62,8 @@ public class numbercontroller : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    selectedObject.image.color = new Color(255, 255, 255, 0);
+                    changeColor();
+
                     if (position / 10 > 0)
                     {
                         selectedObject = numberInput.inputs[arrayPosition - 9].GetComponent<Button>();
@@ -78,7 +81,8 @@ public class numbercontroller : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    selectedObject.image.color = new Color(255, 255, 255, 0);
+                    changeColor();
+
                     if (position / 10 < 8)
                     {
                         selectedObject = numberInput.inputs[arrayPosition + 9].GetComponent<Button>();
@@ -99,17 +103,35 @@ public class numbercontroller : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
            
-            isOpen = !isOpen;
-            if (isOpen)
+            
+
+            if (selectedObject.GetComponentInChildren<Menu>().changable)
             {
-                selectedObject.GetComponentInChildren<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
-                selectedObject.GetComponentInChildren<Menu>().setOpen();
+                isOpen = true;
+                if (isOpen)
+                {
+                    selectedObject.GetComponentInChildren<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
+                    selectedObject.GetComponentInChildren<Menu>().setOpen();
+                    return;
+                }
+                else
+                {
+                    selectedObject.GetComponentInChildren<Menu>().setClose();
+                    return;
+                }
             }
-            else
-            {
-                selectedObject.GetComponentInChildren<Menu>().setClose();
-            }
+            
+            
         }
 
+    }//update
+
+    void changeColor()
+    {
+        if (selectedObject.GetComponent<Menu>().changable)
+            selectedObject.image.color = new Color(0, 1, 0, 0.5f);
+        else {
+            selectedObject.image.color = new Color(255, 255, 255, 0);
+        }
     }
 }
