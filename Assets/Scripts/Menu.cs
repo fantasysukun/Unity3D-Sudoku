@@ -5,7 +5,6 @@ using System;
 public class Menu : MonoBehaviour {
 
     public GameObject numberMenu;
-    public bool isOpen;
     public int Location;
     public int value;
     public bool changable;

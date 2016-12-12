@@ -9,18 +9,19 @@ public class numbercontroller : MonoBehaviour {
     public int position;
     public int arrayPosition = 0;
     public static bool isOpen = false;
+    public static int[,] Current9X9Grid;
 
     // Use this for initialization
     void Start () {
         selectedObject = firstObject;
+        Current9X9Grid = map.easy;
         position = selectedObject.GetComponent<Menu>().Location;
-
         selectedObject.image.color = new Color(255,255,255,255);
     }
 
     // Update is called once per frame
     void Update() {
-          if (!isOpen) { 
+          if (!isOpen && numberMenuController.isValid) { 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     changeColor();

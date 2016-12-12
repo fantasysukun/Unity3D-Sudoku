@@ -13,7 +13,9 @@ public class numberMenuController : MonoBehaviour
     public GameObject selectedObject;
     public int position;
     public int selectedValue;
-
+    public static bool isValid = true;
+    public int Row;
+    public int Col;
 
     // Use this for initialization
     void Awake()
@@ -37,119 +39,136 @@ public class numberMenuController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
-            if (position == 9)
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                //do nothing
-            }
-            else if (position % 3 > 0)
-            {
-                selectedObject = inputs[position - 1];
-                position = position - 1;
-            }
-            else
-            {
-                selectedObject = inputs[position + 2];
-                position = position + 2;
+                selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
+                if (position == 9)
+                {
+                    //do nothing
+                }
+                else if (position % 3 > 0)
+                {
+                    selectedObject = inputs[position - 1];
+                    position = position - 1;
+                }
+                else
+                {
+                    selectedObject = inputs[position + 2];
+                    position = position + 2;
+
+                }
+                selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
 
             }
-            selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
 
-        }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
+                if (position == 9)
+                {
+                    //do nothing
+                }
+                else if (position % 3 < 2)
+                {
+                    selectedObject = inputs[position + 1];
+                    position = position + 1;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
-            if (position == 9)
-            {
-                //do nothing
-            }
-            else if (position % 3 < 2)
-            {
-                selectedObject = inputs[position + 1];
-                position = position + 1;
+                }
+                else
+                {
+                    selectedObject = inputs[position - 2];
+                    position = position - 2;
+                }
 
-            }
-            else
-            {
-                selectedObject = inputs[position - 2];
-                position = position - 2;
+                selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
             }
 
-            selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
-        }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
+                if (position == 9)
+                {
+                    selectedObject = inputs[8];
+                    position = position - 1;
+                }
+                else if (position / 3 > 0)
+                {
+                    selectedObject = inputs[position - 3];
+                    position = position - 3;
+                }
+                else
+                {
+                    //do nothing on firstline
+                }
+                selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
+            }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
-            if (position == 9)
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                selectedObject = inputs[8];
-                position = position - 1;
-            }
-            else if (position / 3 > 0)
-            {
-                selectedObject = inputs[position - 3];
-                position = position - 3;
-            }
-            else
-            {
-                //do nothing on firstline
-            }
-            selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
-        }
+                selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
+                if (position / 3 < 2)
+                {
+                    selectedObject = inputs[position + 3];
+                    position = position + 3;
+                }
+                else
+                {
+                    selectedObject = inputs[9];
+                    position = 9;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            selectedObject.GetComponent<Image>().color = new Color(255, 255, 255);
-            if (position / 3 < 2)
-            {
-                selectedObject = inputs[position + 3];
-                position = position + 3;
+                }
+                selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
             }
-            else
-            {
-                selectedObject = inputs[9];
-                position = 9;
-
-            }
-            selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
-        }
 
         if (Input.GetKeyDown("space"))
         {
-            print(1);
             if(selectedObject.GetComponentInChildren<Text>().text == "x")
             {
-                print(3);
-                this.GetComponentInParent<Menu>().isOpen = false;
                 numbercontroller.isOpen = false;
                 this.GetComponentInParent<Menu>().setClose();
+                
+            }
+            else
+            {
+                selectedValue = Int32.Parse(selectedObject.GetComponentInChildren<Text>().text);
+                this.GetComponentInParent<Menu>().value = selectedValue;
+                numbercontroller.selectedObject.GetComponentInChildren<Text>().text = selectedValue.ToString();
+                getCurrentPosition();
+               // numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
+              
+                numbercontroller.isOpen = false;
+                this.GetComponentInParent<Menu>().setClose();
+                
+
+            }
+
+            if(ConditionCheching.isValid(numbercontroller.Current9X9Grid,Row, Col, selectedValue))
+            {
+                isValid = true;
+                numbercontroller.selectedObject.image.color = new Color(0, 1, 0, 0.5f);
+                numbercontroller.Current9X9Grid[Row, Col] = selectedValue;
                 return;
             }
             else
             {
-                print(4);
-                selectedValue = Int32.Parse(selectedObject.GetComponentInChildren<Text>().text);
-                this.GetComponentInParent<Menu>().value = selectedValue;
-                numbercontroller.selectedObject.GetComponentInChildren<Text>().text = selectedValue.ToString();
+                isValid = false;
+                numbercontroller.selectedObject.image.color = new Color(255, 0, 37, 0.5f);
+                numbercontroller.Current9X9Grid[Row, Col] = selectedValue;
+                return;
             }
-            print(2);
 
+            
+        }//If space
 
+    }//function Update
 
-            /*
-            if (isOpen)
-            {
-                selectedObject.GetComponentInChildren<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
-                selectedObject.GetComponentInChildren<Menu>().setOpen();
-            }
-            else
-            {
-                selectedObject.GetComponentInChildren<Menu>().setClose();
-            }*/
-        }
+    void getCurrentPosition()
+    {
+        int location = numbercontroller.selectedObject.GetComponent<Menu>().Location;
+        Row = location / 10;
+        Col = location % 10;
+        print(Row);
+        print(Col);
+
     }
 }

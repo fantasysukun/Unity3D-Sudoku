@@ -128,6 +128,7 @@ public class ConditionCheching : MonoBehaviour {
     //Input Position x and Position y for the Player input number
     //Input 9x9 Grid map for the whole map
     //Return a bool of this input number Violate the Horizontal & Vertical rule or not
+    //Return True: violate the rule: False: not violate
     public static bool Violation(int x, int y, int[,] Grid9x9)
     {
 
@@ -159,7 +160,7 @@ public class ConditionCheching : MonoBehaviour {
     //Input Position x and Position y for the Player input number
     //Input 3x3 Grid map for where the Player input number is located
     //Return a bool of this input number Violate the Grid rule or not
-    public static bool GridViolation(int x, int y, int GridNumber, int[,] Grid3x3)
+    public static bool GridViolation(int x, int y, int GridNumber,int[,] Grid3x3)
     {
         //Debug.Log("x: " + x + ", y: " + y);
         bool Result = false;
@@ -241,7 +242,7 @@ public class ConditionCheching : MonoBehaviour {
         return true;
     }
 
-    private bool isValid(int[,] board, int row, int col, int c)
+    public static bool isValid(int[,] board, int row, int col, int c)
     {
         for (int i = 0; i < 9; i++)
         {
