@@ -186,21 +186,29 @@ public class ConditionCheching : MonoBehaviour {
         return Result;
     }
 
-    public bool WinningConditionChecking(int[,] FinalMap)
+    public string WinningConditionChecking()
     {
-        bool Result = false;
+        string Player1 = "Player1";
+        string Player2 = "Player2";
 
-        if(AllOneTONiceFilled)
+        if (solveSudoku(FinalMap))
         {
-            if(AllRowFilled && AllColumnFilled && AllGridFilled)
+            if(Score1.score > Score2.score)
             {
-                solveSudoku(FinalMap);
+                //play winning animation for player1
+                return Player1;
+            }
+            else
+            {
+                //play winning animation for player2
+                return Player2;
             }
         }
-        return Result;
+        return "The Game has not finished yet. solveSudoku returns false.";
     }
 
     //Final checking
+    //input a final map from player for checking
     public bool solveSudoku(int[,] board)
     {
         if (board == null || board.GetLength(0) == 0)
