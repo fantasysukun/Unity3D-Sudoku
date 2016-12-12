@@ -45,8 +45,8 @@ public class GameRules : MonoBehaviour {
         int[,] Grid3x3 = ConditionCheching.Testing3x3Grid_True;       //Need to conver Grid9x9 to Grid3x3
         int RelatetivePositionX = 0;    //Need to conver x to RelatetivePositionX
         int RelatetivePositionY = 0;    //Need to conver y to RelatetivePositionY
-
-        if (ConditionCheching.Violation(x, y, Grid9x9) || ConditionCheching.Violation(RelatetivePositionX, RelatetivePositionY, Grid3x3) )
+        int GridNumber = 0;             //input Grid number from 0-8, from the first to the last Grid.
+        if (ConditionCheching.Violation(x, y, Grid9x9) || ConditionCheching.GridViolation(RelatetivePositionX, RelatetivePositionY, GridNumber, Grid3x3) )
         {
             return true;
         }

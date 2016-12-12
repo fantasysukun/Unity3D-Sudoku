@@ -6,9 +6,11 @@ public class ConditionCheching : MonoBehaviour {
     public bool[] Row;
     public bool[] Column;
     public bool[] Grid;
+    public bool[] OneToNine;
     public bool AllRowFilled;
     public bool AllColumnFilled;
     public bool AllGridFilled;
+    public bool AllOneTONiceFilled;
 
     public static int[,] Testing9x9Grid = new int[,] {
             {5,2,7,0,0,6,4,0,0 },
@@ -57,6 +59,39 @@ public class ConditionCheching : MonoBehaviour {
             {5,2,7 },
             {0,9,1 },
             {4,0,6 },};
+
+    public static int[,] FinalMap = new int[,] {
+            {3,9,1,2,8,6,5,7,4 },
+            {4,8,7,3,5,9,1,2,6 },
+            {6,5,2,7,1,4,8,3,9 },
+            {8,7,5,4,3,1,6,9,2 },
+            {2,1,3,9,6,7,4,8,5 },
+            {9,6,4,5,2,8,7,1,3 },
+            {1,4,9,6,7,3,2,5,8 },
+            {5,3,8,1,4,2,9,6,7 },
+            {7,2,6,8,9,5,3,4,1 } };
+
+    public static int[,] FinalMap1 = new int[,] {
+            {3,9,1,2,8,6,5,7,4 },
+            {4,8,7,3,5,9,1,2,6 },
+            {6,5,2,7,1,4,8,3,9 },
+            {8,7,5,4,3,1,6,9,2 },
+            {2,1,3,9,6,7,4,8,5 },
+            {9,6,4,5,2,8,7,1,3 },
+            {1,4,9,6,7,3,2,5,8 },
+            {5,3,8,1,4,2,9,6,7 },
+            {7,2,6,8,9,5,3,4,0 } };
+
+    public static int[,] FinalMap2 = new int[,] {
+            {3,9,1,2,8,6,5,7,4 },
+            {4,8,7,3,5,9,1,2,6 },
+            {6,5,2,7,1,4,8,3,9 },
+            {8,7,5,4,3,1,6,9,2 },
+            {2,1,3,9,6,7,4,8,5 },
+            {9,6,4,5,2,8,7,1,3 },
+            {1,4,9,6,7,3,2,5,8 },
+            {5,3,8,1,4,2,9,6,7 },
+            {7,2,6,8,9,5,3,4,2 } };
     // Use this for initialization
     void Start () {
         Row = new bool[9];
@@ -72,15 +107,22 @@ public class ConditionCheching : MonoBehaviour {
         AllRowFilled = false;
         AllColumnFilled = false;
         AllGridFilled = false;
+        AllOneTONiceFilled = false;
 
         //Sample Unit Testing
+        int GridNumber = 0; //The first Grid
         /*
         Debug.Log("Violation: " +  Violation(0, 0, Testing9x9Grid));
-        Debug.Log("GridViolation: " + GridViolation(0, 0, Testing3x3Grid));
+        Debug.Log("GridViolation: " + GridViolation(0, 0, GridNumber, Testing3x3Grid));
 
         Debug.Log("Violation: " + Violation(0, 0, Testing9x9Grid_False) + " Expected False");
-        Debug.Log("GridViolation: " + GridViolation(0, 0, Testing3x3Grid_False) + " Expected True");
+        Debug.Log("GridViolation: " + GridViolation(0, 0, GridNumber, Testing3x3Grid_False) + " Expected True");
         */
+
+        //Testing for final checking
+        Debug.Log("FinalMap: " + solveSudoku(FinalMap) + " Expected True");
+        Debug.Log("FinalMap1: " + solveSudoku(FinalMap1) + " Expected False");
+        Debug.Log("FinalMap2: " + solveSudoku(FinalMap2) + " Expected False");
     }
 
     //Input Position x and Position y for the Player input number
@@ -117,7 +159,7 @@ public class ConditionCheching : MonoBehaviour {
     //Input Position x and Position y for the Player input number
     //Input 3x3 Grid map for where the Player input number is located
     //Return a bool of this input number Violate the Grid rule or not
-    public static bool GridViolation(int x, int y, int[,] Grid3x3)
+    public static bool GridViolation(int x, int y, int GridNumber, int[,] Grid3x3)
     {
         //Debug.Log("x: " + x + ", y: " + y);
         bool Result = false;
@@ -144,10 +186,63 @@ public class ConditionCheching : MonoBehaviour {
         return Result;
     }
 
+    public bool WinningConditionChecking(int[,] FinalMap)
+    {
+        bool Result = false;
 
-    // Update is called once per frame
-    void Update () {
-	
-	}
+        if(AllOneTONiceFilled)
+        {
+            if(AllRowFilled && AllColumnFilled && AllGridFilled)
+            {
+                solveSudoku(FinalMap);
+            }
+        }
+        return Result;
+    }
+
+    //Final checking
+    public bool solveSudoku(int[,] board)
+    {
+        if (board == null || board.GetLength(0) == 0)
+            return false;
+        return solve(board);
+    }
+
+    public bool solve(int[,] board)
+    {
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i,j] == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    for (int c = 1; c <= 9; c++)    //trial. Try 1 through 9
+                    {                       
+                        if (isValid(board, i, j, c))
+                        {
+                            return false;           //it should not be valid
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private bool isValid(int[,] board, int row, int col, int c)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (board[i,col] != 0 && board[i,col] == c) return false; //check row
+            if (board[row,i] != 0 && board[row,i] == c) return false; //check column
+            if (board[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3] != 0 &&
+                board[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3] == c) return false; //check 3*3 block
+        }
+        return true;
+    }
 
 }
