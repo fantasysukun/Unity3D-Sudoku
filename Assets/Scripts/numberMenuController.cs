@@ -145,8 +145,10 @@ public class numberMenuController : MonoBehaviour
             if(ConditionCheching.isValid(numbercontroller.Current9X9Grid,Row, Col, selectedValue))
             {
                 isValid = true;
-                numbercontroller.selectedObject.image.color = new Color(0, 1, 0, 0.5f);
+                numbercontroller.selectedObject.image.color = new Color(1, 1, 1, 1f);
+                GameRules.GmaeRuleChecking_And_Scoring("Player1", Row, Col, numbercontroller.Current9X9Grid);
                 numbercontroller.Current9X9Grid[Row, Col] = selectedValue;
+               
                 return;
             }
             else

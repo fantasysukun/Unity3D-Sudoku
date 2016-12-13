@@ -4,7 +4,7 @@ using System.Collections;
 public class GameRules : MonoBehaviour {
 
     public int Difficult;
-    public int DifficultBonus;
+    public static int DifficultBonus;
     public int TimeInMinutes;
     float BonusDroppingTime;
 
@@ -37,7 +37,7 @@ public class GameRules : MonoBehaviour {
     }
 
     //Plz using this method for All Violation Checking 
-    public bool ViolationChecking(int x, int y, int[,] Grid9x9)
+    public static bool ViolationChecking(int x, int y, int[,] Grid9x9)
     {
 
         //         !!!!!!!!!! Attention !!!!!!!!!!
@@ -55,11 +55,13 @@ public class GameRules : MonoBehaviour {
     }
 
     //Update Player's Score
-    public void SetPlayerScore(string Player, int score)
+    public static void SetPlayerScore(string Player, int score)
     {
         if (Player.Equals("Player1"))
         {
             Score1.score += score;
+            print(Score1.score);
+            print(DifficultBonus);
             //BigMove = BigMove1;
         }
         else if (Player.Equals("Player2"))
@@ -74,7 +76,7 @@ public class GameRules : MonoBehaviour {
     }
 
     //Game Main Logic goes here
-    void GmaeRuleChecking_And_Scoring(string Player, int x, int y, int[,] PlayerMap)
+    public static void GmaeRuleChecking_And_Scoring(string Player, int x, int y, int[,] PlayerMap)
     {
         //Debug.Log("GmaeRuleChecking_And_Scoring Running!!!");
         int score = 0;
