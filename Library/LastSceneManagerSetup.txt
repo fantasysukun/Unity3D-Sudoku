@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scence/gamescence.unity
+- path: C:/Tower-Defense-Tutorial-master/Tower Defense Unity Project/Assets/Scences/_scence.unity
   isLoaded: 1
   isActive: 1
