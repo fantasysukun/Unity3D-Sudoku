@@ -243,7 +243,7 @@ public class ConditionCheching : MonoBehaviour {
         return Result;
     }
 
-    public string WinningConditionChecking()
+    public string WinningConditionChecking(int[,] FinalMap)
     {
         string Player1 = "Player1";
         string Player2 = "Player2";
