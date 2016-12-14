@@ -14,6 +14,7 @@ public class ConditionCheching : MonoBehaviour {
     public int AllRowFilledCounter;
     public int AllColumnFilledCounter;
     public int AllGridFilledCounter;
+    public static string result;
 
     public int[,] BigMoveChecking;
 
@@ -249,19 +250,22 @@ public class ConditionCheching : MonoBehaviour {
 
         if (solveSudoku(FinalMap))
         {
-            if(Score1.score > Score2.score)
+            if (Score1.score > Score2.score)
             {
                 //play winning animation for player1
+                result = Player1;
                 return Player1;
             }
             else
             {
                 //play winning animation for player2
+                result = Player1;
                 return Player2;
             }
         }
         return "The Game has not finished yet. solveSudoku returns false.";
     }
+
 
     //Final checking
     //input a final map from player for checking
