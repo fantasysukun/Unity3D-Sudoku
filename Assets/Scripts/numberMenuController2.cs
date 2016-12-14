@@ -3,14 +3,13 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 
 public class numberMenuController2 : MonoBehaviour
 {
 
     private GameObject[] inputs;
-    public GameObject selectedObject;
+    private GameObject selectedObject;
     public int position;
     public int selectedValue;
     public bool isValid = true;
@@ -118,18 +117,20 @@ public class numberMenuController2 : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            
                 if (selectedObject.GetComponentInChildren<Text>().text == "x")
                 {
                     selectedValue = 0;
                     GetComponentInParent<Menu>().value = selectedValue;
                     numbercontroller.selectedObject2.GetComponentInChildren<Text>().text = "";
+                    numbercontroller.selectedObject2.GetComponent<Menu>().isValid = true;
+                    numbercontroller.selectedObject2.image.color = new Color(0, 1, 0, 0.5f);
+                    isValid = true;
                     getCurrentPosition();
-                    // numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
+                    numbercontroller.Current9X9Grid2[Row , Col] = selectedValue;
 
                     numbercontroller.isOpen2 = false;
                     GetComponentInParent<Menu>().setClose();
-
+                    return;
                 }
                 else
                 {
@@ -137,46 +138,39 @@ public class numberMenuController2 : MonoBehaviour
                     GetComponentInParent<Menu>().value = selectedValue;
                     numbercontroller.selectedObject2.GetComponentInChildren<Text>().text = selectedValue.ToString();
                     getCurrentPosition();
-                    // numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
 
                     numbercontroller.isOpen2 = false;
                     GetComponentInParent<Menu>().setClose();
 
                     if (ConditionCheching.isValid(numbercontroller.Current9X9Grid2, Row, Col, selectedValue))
                     {
-                        numbercontroller.selectedObject.GetComponent<Menu>().isValid = true;
+                        numbercontroller.selectedObject2.GetComponent<Menu>().isValid = true;
                         isValid = true;
                         numbercontroller.selectedObject2.image.color = new Color(1, 1, 1, 1f);
-                        GameRules.GmaeRuleChecking_And_Scoring("Player2", Row, Col, numbercontroller.Current9X9Grid);
+                        GameRules.GmaeRuleChecking_And_Scoring("Player2", Row, Col, numbercontroller.Current9X9Grid2);
                         numbercontroller.Current9X9Grid2[Row, Col] = selectedValue;
 
                         return;
                     }
                     else
                     {
-                        numbercontroller.selectedObject.GetComponent<Menu>().isValid = false;
+                        numbercontroller.selectedObject2.GetComponent<Menu>().isValid = false;
                         isValid = false;
                         numbercontroller.selectedObject2.image.color = new Color(255, 0, 37, 0.5f);
                         numbercontroller.Current9X9Grid2[Row, Col] = selectedValue;
                         return;
                     }
                 }
-            
         }//If space
     }//function Update
 
     void getCurrentPosition()
     {
-        int location = numbercontroller.selectedObject.GetComponent<Menu>().Location;
+        int location = numbercontroller.selectedObject2.GetComponent<Menu>().Location;
         Row = location / 10;
         Col = location % 10;
         print(Row);
         print(Col);
 
-    }
-
-    bool getisValid()
-    {
-        return isValid;
     }
 }

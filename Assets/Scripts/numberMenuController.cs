@@ -10,7 +10,7 @@ public class numberMenuController : MonoBehaviour
 {
 
     private GameObject[] inputs;
-    public GameObject selectedObject;
+    private GameObject selectedObject;
     public int position;
     public int selectedValue;
     public bool isValid = true;
@@ -116,6 +116,7 @@ public class numberMenuController : MonoBehaviour
                 selectedObject.GetComponent<Image>().color = new Color(255, 0, 0);
             }
 
+
         if (Input.GetKeyDown("space"))
         {
             if(selectedObject.GetComponentInChildren<Text>().text == "x")
@@ -123,18 +124,22 @@ public class numberMenuController : MonoBehaviour
                 selectedValue = 0;
                 GetComponentInParent<Menu>().value = selectedValue;
                 numbercontroller.selectedObject.GetComponentInChildren<Text>().text = "";
+                numbercontroller.selectedObject.GetComponent<Menu>().isValid = true;
+                numbercontroller.selectedObject.image.color = new Color(0, 1, 0, 0.5f);
+                isValid = true;
                 getCurrentPosition();
-                // numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
+                numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
 
                 numbercontroller.isOpen = false;
                 GetComponentInParent<Menu>().setClose();
-
+                return;
             }
             else
             {
                 selectedValue = Int32.Parse(selectedObject.GetComponentInChildren<Text>().text);
                 GetComponentInParent<Menu>().value = selectedValue;
                 numbercontroller.selectedObject.GetComponentInChildren<Text>().text = selectedValue.ToString();
+
                 getCurrentPosition();
                // numbercontroller.Current9X9Grid[Row , Col] = selectedValue;
               
