@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class ConditionCheching : MonoBehaviour {
+public class ConditionCheching : MonoBehaviour
+{
 
     public bool[] Row;
     public bool[] Column;
@@ -14,6 +16,7 @@ public class ConditionCheching : MonoBehaviour {
     public int AllRowFilledCounter;
     public int AllColumnFilledCounter;
     public int AllGridFilledCounter;
+    public static string result;
 
     public int[,] BigMoveChecking;
 
@@ -98,12 +101,13 @@ public class ConditionCheching : MonoBehaviour {
             {5,3,8,1,4,2,9,6,7 },
             {7,2,6,8,9,5,3,4,2 } };
     // Use this for initialization
-    public void Start () {
+    public void Start()
+    {
         Row = new bool[9];
         Column = new bool[9];
         Grid = new bool[9];
 
-        for (int i=0; i < 9; i++)
+        for (int i = 0; i < 9; i++)
         {
             Row[i] = false;
             Column[i] = false;
@@ -123,7 +127,6 @@ public class ConditionCheching : MonoBehaviour {
         /*
         Debug.Log("Violation: " +  Violation(0, 0, Testing9x9Grid));
         Debug.Log("GridViolation: " + GridViolation(0, 0, GridNumber, Testing3x3Grid));
-
         Debug.Log("Violation: " + Violation(0, 0, Testing9x9Grid_False) + " Expected False");
         Debug.Log("GridViolation: " + GridViolation(0, 0, GridNumber, Testing3x3Grid_False) + " Expected True");
         */
@@ -165,7 +168,7 @@ public class ConditionCheching : MonoBehaviour {
         {
             for (int ColT = 0; ColT <= NewSizeOfCol; ColT++)
             {
-                
+
                 //print("BigMoveChecking[" + NewSizeOfRow + ", " + ColT + "]" + BigMoveChecking[NewSizeOfRow, ColT]);
                 //print("BigMoveChecking[" + (RowT / 3) + 1 + ", " + (ColT / 3) + 1 + "]" + BigMoveChecking[(RowT / 3) + 1, (ColT / 3) + 1]);
             }
@@ -193,9 +196,9 @@ public class ConditionCheching : MonoBehaviour {
         {
             for (int Col = 0; Col < Grid9x9.GetLength(1); Col++)
             {
-                if( (Row == x || Col == y) && !(Row == x && Col == y))
+                if ((Row == x || Col == y) && !(Row == x && Col == y))
                 {
-                    if(Grid9x9[x , y] == Grid9x9[Row , Col] && Grid9x9[x , y] != 0)
+                    if (Grid9x9[x, y] == Grid9x9[Row, Col] && Grid9x9[x, y] != 0)
                     {
                         /*
                         Debug.Log("x: " + x + ", y: " + y);
@@ -242,50 +245,55 @@ public class ConditionCheching : MonoBehaviour {
         return Result;
     }
 
-    public string WinningConditionChecking()
+    public static string WinningConditionChecking(int[,] FinalMap)
     {
         string Player1 = "Player1";
         string Player2 = "Player2";
 
         if (solveSudoku(FinalMap))
         {
-            if(Score1.score > Score2.score)
+            if (Score1.score > Score2.score)
             {
                 //play winning animation for player1
+                result = Player1;
+                SceneManager.LoadScene(3);
                 return Player1;
             }
             else
             {
                 //play winning animation for player2
+                result = Player1;
+                SceneManager.LoadScene(3);
                 return Player2;
             }
         }
-        return "The Game has not finished yet. solveSudoku returns false.";
+          return "The Game has not finished yet. solveSudoku returns false.";
     }
+
 
     //Final checking
     //input a final map from player for checking
-    public bool solveSudoku(int[,] board)
+    public static bool solveSudoku(int[,] board)
     {
         if (board == null || board.GetLength(0) == 0)
             return false;
         return solve(board);
     }
 
-    public bool solve(int[,] board)
+    public static bool solve(int[,] board)
     {
         for (int i = 0; i < board.GetLength(0); i++)
         {
             for (int j = 0; j < board.GetLength(1); j++)
             {
-                if (board[i,j] == 0)
+                if (board[i, j] == 0)
                 {
                     return false;
                 }
                 else
                 {
                     for (int c = 1; c <= 9; c++)    //trial. Try 1 through 9
-                    {                       
+                    {
                         if (isValid(board, i, j, c))
                         {
                             return false;           //it should not be valid
@@ -301,8 +309,8 @@ public class ConditionCheching : MonoBehaviour {
     {
         for (int i = 0; i < 9; i++)
         {
-            if (board[i,col] != 0 && board[i,col] == c) return false; //check row
-            if (board[row,i] != 0 && board[row,i] == c) return false; //check column
+            if (board[i, col] != 0 && board[i, col] == c) return false; //check row
+            if (board[row, i] != 0 && board[row, i] == c) return false; //check column
             if (board[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3] != 0 &&
                 board[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3] == c) return false; //check 3*3 block
         }
@@ -311,8 +319,8 @@ public class ConditionCheching : MonoBehaviour {
 
     public void Specialchecking(int[,] board, int row, int col, int c)
     {
-        int NewSizeOfRow = board.GetLength(0)-1;
-        int NewSizeOfCol = board.GetLength(1)-1;
+        int NewSizeOfRow = board.GetLength(0) - 1;
+        int NewSizeOfCol = board.GetLength(1) - 1;
 
         if (board[row, col] == 0 && c != 0)
         {
@@ -321,11 +329,11 @@ public class ConditionCheching : MonoBehaviour {
             BigMoveChecking[NewSizeOfRow, col] += 1;
             GridCounter[(row / 3) + 1, (col / 3) + 1] += 1;
 
-            if(BigMoveChecking[row, NewSizeOfCol] == 9)
+            if (BigMoveChecking[row, NewSizeOfCol] == 9)
             {
                 Row[row] = true;
                 AllRowFilledCounter++;
-                if(AllRowFilledCounter == 9)
+                if (AllRowFilledCounter == 9)
                 {
                     AllRowFilled = true;
                 }
@@ -341,19 +349,19 @@ public class ConditionCheching : MonoBehaviour {
             }
             if (GridCounter[(row / 3) + 1, (col / 3) + 1] == 9)
             {
-                Grid[(row / 3)*3 + (col / 3)] = true;
+                Grid[(row / 3) * 3 + (col / 3)] = true;
                 AllGridFilledCounter++;
                 if (AllGridFilledCounter == 9)
                 {
                     AllGridFilled = true;
                 }
             }
-            if(AllRowFilled && AllColumnFilled && AllGridFilled)
+            if (AllRowFilled && AllColumnFilled && AllGridFilled)
             {
                 AllFilled = true;
             }
         }
-        else if(board[row, col] != 0 && c == 0)
+        else if (board[row, col] != 0 && c == 0)
         {
             BigMoveChecking[row, col] = 0;
             BigMoveChecking[row, NewSizeOfCol] -= 1;

@@ -2,7 +2,8 @@
 using System.Collections;
 
 
-public class GameRules : MonoBehaviour {
+public class GameRules : MonoBehaviour
+{
 
     public int Difficult;
     public static int DifficultBonus;
@@ -13,7 +14,8 @@ public class GameRules : MonoBehaviour {
     public int BigMove2;
     ConditionCheching conditionCheching;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         Difficult = 1;
         TimeInMinutes = 20;
@@ -49,7 +51,7 @@ public class GameRules : MonoBehaviour {
         int RelatetivePositionX = 0;    //Need to conver x to RelatetivePositionX
         int RelatetivePositionY = 0;    //Need to conver y to RelatetivePositionY
         int GridNumber = 0;             //input Grid number from 0-8, from the first to the last Grid.
-        if (ConditionCheching.Violation(x, y, Grid9x9) || ConditionCheching.GridViolation(RelatetivePositionX, RelatetivePositionY, GridNumber, Grid3x3) )
+        if (ConditionCheching.Violation(x, y, Grid9x9) || ConditionCheching.GridViolation(RelatetivePositionX, RelatetivePositionY, GridNumber, Grid3x3))
         {
             return true;
         }
@@ -109,7 +111,9 @@ public class GameRules : MonoBehaviour {
         Debug.Log("score: " + score);
 
         //Special checking  will be added later
-
+        string result = ConditionCheching.WinningConditionChecking(numbercontroller.Current9X9Grid);
+        Debug.Log("numbercontroller.Current9X9Grid: " + numbercontroller.Current9X9Grid[8, 8]);
+        Debug.Log("result: " + result);
 
     }
 
