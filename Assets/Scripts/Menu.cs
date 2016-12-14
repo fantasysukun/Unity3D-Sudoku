@@ -17,11 +17,13 @@ public class Menu : MonoBehaviour {
         if (transform.parent.tag == "player1")
         {
             go = (GameObject)Instantiate(numberMenu);
+
             go.transform.SetParent(transform);
         }
         else
         {
             go = (GameObject)Instantiate(numberMenu2);
+     
             go.transform.SetParent(transform);
         }
     }

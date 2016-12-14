@@ -17,7 +17,7 @@ public class numberInput : MonoBehaviour {
             inputs[i] = transform.GetChild(i);
             Text text = inputs[i].GetComponentsInChildren<Text>()[0];
             inputs[i].GetComponent<Menu>().Location = row * 10 + column;
-
+   
             if (map.easy[row, column] == 0)
             {
                 text.text = "";

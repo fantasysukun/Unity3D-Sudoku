@@ -125,6 +125,7 @@ public class numbercontroller : MonoBehaviour {
                 if (isOpen)
                 {
                     selectedObject.GetComponent<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
+                    
                     selectedObject.GetComponent<Menu>().setOpen();
                     return;
                 }
@@ -225,7 +226,8 @@ public class numbercontroller : MonoBehaviour {
                 isOpen2 = true;
                 if (isOpen2)
                 {
-                    selectedObject2.GetComponentInChildren<Menu>().go.transform.position = selectedObject2.transform.position + new Vector3(0, 0, -10f);
+                    selectedObject2.GetComponentInChildren<Menu>().go.transform.position = selectedObject2.transform.position + new Vector3(0, 0, 10f);
+                    selectedObject2.GetComponentInChildren<Menu>().go.transform.SetAsFirstSibling();
                     selectedObject2.GetComponentInChildren<Menu>().setOpen();
                     return;
                 }
