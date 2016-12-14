@@ -151,9 +151,9 @@ public class numberMenuController : MonoBehaviour
                     numbercontroller.selectedObject.GetComponent<Menu>().isValid = true;
                     isValid = true;
                     numbercontroller.selectedObject.image.color = new Color(1, 1, 1, 1f);
-                    GameRules.GmaeRuleChecking_And_Scoring("Player1", Row, Col, numbercontroller.Current9X9Grid);
+                    
                     numbercontroller.Current9X9Grid[Row, Col] = selectedValue;
-               
+                    GameRules.GmaeRuleChecking_And_Scoring("Player1", Row, Col, numbercontroller.Current9X9Grid);
                     return;
                 }
                 else
