@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
@@ -28,6 +29,14 @@ public class Timer : MonoBehaviour
         minutes = Mathf.Floor(timer / 60).ToString("00");
         seconds = (timer % 60).ToString("00");
         text.text = minutes + ":" + seconds;
+
+        if (timer <= 0)
+        {
+
+            SetDefutTimer(1);
+            SceneManager.LoadScene(3);
+        }
+
     }
 
     public void SetDefutTimer(float Minutes)
