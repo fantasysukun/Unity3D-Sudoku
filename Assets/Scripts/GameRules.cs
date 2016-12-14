@@ -18,12 +18,12 @@ public class GameRules : MonoBehaviour {
         TimeInMinutes = 20;
         BonusDroppingTime = 0;
         DifficultBonus = TimeInMinutes * 3 * Difficult;
-
+        Debug.Log("First DifficultBonus: " + DifficultBonus);
         BigMove1 = 1;
         BigMove2 = 1;
 
         //Testing
-        GmaeRuleChecking_And_Scoring("Player1", 2, 2, ConditionCheching.Testing9x9Grid_True);
+        //GmaeRuleChecking_And_Scoring("Player1", 2, 2, ConditionCheching.Testing9x9Grid_True);
     }
 
     void Update()
@@ -32,6 +32,8 @@ public class GameRules : MonoBehaviour {
         if (BonusDroppingTime >= 20.0)
         {
             DifficultBonus -= 1;
+            Debug.Log("DifficultBonus: " + DifficultBonus);
+            BonusDroppingTime = 0;
         }
 
     }
