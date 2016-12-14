@@ -87,6 +87,10 @@ public class GameRules : MonoBehaviour {
 
 
         //Big Move checking will be added later
+        //trigger animation
+        //3 second 
+
+        //Bigmove current trigger animation
 
         /*
         Debug.Log("score: " + score);

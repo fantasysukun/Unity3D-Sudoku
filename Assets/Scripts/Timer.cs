@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    public static float timer = 1 * 60;
+    public static float timer = 20 * 60;
     string minutes;
     string seconds;
     float OneSecond = 1;
