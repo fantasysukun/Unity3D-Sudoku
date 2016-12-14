@@ -243,7 +243,7 @@ public class ConditionCheching : MonoBehaviour {
         return Result;
     }
 
-    public string WinningConditionChecking(int[,] FinalMap)
+    public static string WinningConditionChecking(int[,] FinalMap)
     {
         string Player1 = "Player1";
         string Player2 = "Player2";
@@ -269,14 +269,14 @@ public class ConditionCheching : MonoBehaviour {
 
     //Final checking
     //input a final map from player for checking
-    public bool solveSudoku(int[,] board)
+    public static bool solveSudoku(int[,] board)
     {
         if (board == null || board.GetLength(0) == 0)
             return false;
         return solve(board);
     }
 
-    public bool solve(int[,] board)
+    public static bool solve(int[,] board)
     {
         for (int i = 0; i < board.GetLength(0); i++)
         {

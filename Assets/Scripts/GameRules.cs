@@ -109,7 +109,9 @@ public class GameRules : MonoBehaviour {
         Debug.Log("score: " + score);
 
         //Special checking  will be added later
-
+        string result = ConditionCheching.WinningConditionChecking(numbercontroller.Current9X9Grid);
+        Debug.Log("numbercontroller.Current9X9Grid: " + numbercontroller.Current9X9Grid[8, 8]);
+        Debug.Log("result: " + result);
 
     }
 
