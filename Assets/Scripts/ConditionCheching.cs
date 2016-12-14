@@ -6,11 +6,16 @@ public class ConditionCheching : MonoBehaviour {
     public bool[] Row;
     public bool[] Column;
     public bool[] Grid;
-    public bool[] OneToNine;
+    public int[,] GridCounter;
     public bool AllRowFilled;
     public bool AllColumnFilled;
     public bool AllGridFilled;
-    public bool AllOneTONiceFilled;
+    public bool AllFilled;
+    public int AllRowFilledCounter;
+    public int AllColumnFilledCounter;
+    public int AllGridFilledCounter;
+
+    public int[,] BigMoveChecking;
 
     public static int[,] Testing9x9Grid = new int[,] {
             {5,2,7,0,0,6,4,0,0 },
@@ -93,7 +98,7 @@ public class ConditionCheching : MonoBehaviour {
             {5,3,8,1,4,2,9,6,7 },
             {7,2,6,8,9,5,3,4,2 } };
     // Use this for initialization
-    void Start () {
+    public void Start () {
         Row = new bool[9];
         Column = new bool[9];
         Grid = new bool[9];
@@ -107,7 +112,11 @@ public class ConditionCheching : MonoBehaviour {
         AllRowFilled = false;
         AllColumnFilled = false;
         AllGridFilled = false;
-        AllOneTONiceFilled = false;
+        AllFilled = false;
+
+        AllRowFilledCounter = 0;
+        AllColumnFilledCounter = 0;
+        AllGridFilledCounter = 0;
 
         //Sample Unit Testing
         int GridNumber = 0; //The first Grid
@@ -123,6 +132,53 @@ public class ConditionCheching : MonoBehaviour {
         Debug.Log("FinalMap: " + solveSudoku(FinalMap) + " Expected True");
         Debug.Log("FinalMap1: " + solveSudoku(FinalMap1) + " Expected False");
         Debug.Log("FinalMap2: " + solveSudoku(FinalMap2) + " Expected False");
+
+        BigMoveChecking = new int[10, 10];
+        GridCounter = new int[4, 4];
+        for (int RowT = 0; RowT < GridCounter.GetLength(0); RowT++)
+        {
+            for (int ColT = 0; ColT < GridCounter.GetLength(1); ColT++)
+            {
+                GridCounter[RowT, ColT] = 0;
+            }
+        }
+
+        for (int RowT = 0; RowT <= FinalMap.GetLength(0); RowT++)
+        {
+            for (int ColT = 0; ColT <= FinalMap.GetLength(1); ColT++)
+            {
+                BigMoveChecking[RowT, ColT] = 0;
+            }
+        }
+        /*
+        for (int RowT = 0; RowT < FinalMap.GetLength(0); RowT++)
+        {
+            for (int ColT = 0; ColT < FinalMap.GetLength(1); ColT++)
+            {
+                Specialchecking(BigMoveChecking, RowT, ColT, FinalMap[RowT, ColT]);
+            }
+        }
+        */
+        int NewSizeOfRow = FinalMap.GetLength(0);
+        int NewSizeOfCol = FinalMap.GetLength(1);
+        for (int RowT = 0; RowT <= NewSizeOfRow; RowT++)
+        {
+            for (int ColT = 0; ColT <= NewSizeOfCol; ColT++)
+            {
+                
+                //print("BigMoveChecking[" + NewSizeOfRow + ", " + ColT + "]" + BigMoveChecking[NewSizeOfRow, ColT]);
+                //print("BigMoveChecking[" + (RowT / 3) + 1 + ", " + (ColT / 3) + 1 + "]" + BigMoveChecking[(RowT / 3) + 1, (ColT / 3) + 1]);
+            }
+            //print("BigMoveChecking[" + RowT + ", " + NewSizeOfCol + "]" + BigMoveChecking[RowT, NewSizeOfCol]);  
+        }
+
+        for (int RowT = 0; RowT < GridCounter.GetLength(0); RowT++)
+        {
+            for (int ColT = 0; ColT < GridCounter.GetLength(1); ColT++)
+            {
+                print(GridCounter[RowT, ColT]);
+            }
+        }
     }
 
     //Input Position x and Position y for the Player input number
@@ -253,4 +309,56 @@ public class ConditionCheching : MonoBehaviour {
         return true;
     }
 
+    public void Specialchecking(int[,] board, int row, int col, int c)
+    {
+        int NewSizeOfRow = board.GetLength(0)-1;
+        int NewSizeOfCol = board.GetLength(1)-1;
+
+        if (board[row, col] == 0 && c != 0)
+        {
+            BigMoveChecking[row, col] = 1;
+            BigMoveChecking[row, NewSizeOfCol] += 1;
+            BigMoveChecking[NewSizeOfRow, col] += 1;
+            GridCounter[(row / 3) + 1, (col / 3) + 1] += 1;
+
+            if(BigMoveChecking[row, NewSizeOfCol] == 9)
+            {
+                Row[row] = true;
+                AllRowFilledCounter++;
+                if(AllRowFilledCounter == 9)
+                {
+                    AllRowFilled = true;
+                }
+            }
+            if (BigMoveChecking[NewSizeOfRow, col] == 9)
+            {
+                Column[col] = true;
+                AllColumnFilledCounter++;
+                if (AllColumnFilledCounter == 9)
+                {
+                    AllColumnFilled = true;
+                }
+            }
+            if (GridCounter[(row / 3) + 1, (col / 3) + 1] == 9)
+            {
+                Grid[(row / 3)*3 + (col / 3)] = true;
+                AllGridFilledCounter++;
+                if (AllGridFilledCounter == 9)
+                {
+                    AllGridFilled = true;
+                }
+            }
+            if(AllRowFilled && AllColumnFilled && AllGridFilled)
+            {
+                AllFilled = true;
+            }
+        }
+        else if(board[row, col] != 0 && c == 0)
+        {
+            BigMoveChecking[row, col] = 0;
+            BigMoveChecking[row, NewSizeOfCol] -= 1;
+            BigMoveChecking[NewSizeOfRow, col] -= 1;
+            GridCounter[(row / 3) + 1, (col / 3) + 1] -= 1;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class GameRules : MonoBehaviour {
 
     public int Difficult;
@@ -10,7 +11,7 @@ public class GameRules : MonoBehaviour {
 
     public int BigMove1;
     public int BigMove2;
-
+    ConditionCheching conditionCheching;
     // Use this for initialization
     void Start () {
 
@@ -111,5 +112,6 @@ public class GameRules : MonoBehaviour {
 
 
     }
+
 
 }
