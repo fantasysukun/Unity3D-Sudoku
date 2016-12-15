@@ -88,7 +88,7 @@ public class ConditionCheching2 : MonoBehaviour
             {9,6,4,5,2,8,7,1,3 },
             {1,4,9,6,7,3,2,5,8 },
             {5,3,8,1,4,2,9,6,7 },
-            {7,2,6,8,9,5,3,4,0 } };
+            {7,2,6,8,0,0,0,0,0 } };
 
     public static int[,] FinalMap2 = new int[,] {
             {3,9,1,2,8,6,5,7,4 },
@@ -183,7 +183,7 @@ public class ConditionCheching2 : MonoBehaviour
         {
             for (int ColT = 0; ColT < GridCounter.GetLength(1); ColT++)
             {
-                print(GridCounter[RowT, ColT]);
+                //print(GridCounter[RowT, ColT]);
             }
         }
     }
@@ -326,14 +326,14 @@ public class ConditionCheching2 : MonoBehaviour
         int BigMove = 0;
         int NewSizeOfRow = board.GetLength(0) - 1;
         int NewSizeOfCol = board.GetLength(1) - 1;
-        print("BigMove0: " + BigMove);
+        //print("BigMove0: " + BigMove);
         if (board[row, col] == 0 && c != 0)
         {
             BigMoveChecking[row, col] = 1;
             BigMoveChecking[row, NewSizeOfCol] += 1;
             BigMoveChecking[NewSizeOfRow, col] += 1;
             GridCounter[(row / 3) + 1, (col / 3) + 1] += 1;
-            print("Runing: " + BigMove);
+            //print("Runing: " + BigMove);
 
             if (BigMoveChecking[row, NewSizeOfCol] == 9)
             {
@@ -344,7 +344,7 @@ public class ConditionCheching2 : MonoBehaviour
                     AllRowFilled = true;
                 }
                 BigMove++;
-                print("BigMove1: " + BigMove);
+                //print("BigMove1: " + BigMove);
             }
             if (BigMoveChecking[NewSizeOfRow, col] == 9)
             {
@@ -355,7 +355,7 @@ public class ConditionCheching2 : MonoBehaviour
                     AllColumnFilled = true;
                 }
                 BigMove++;
-                print("BigMove2: " + BigMove);
+                //print("BigMove2: " + BigMove);
             }
             if (GridCounter[(row / 3) + 1, (col / 3) + 1] == 9)
             {
@@ -366,13 +366,13 @@ public class ConditionCheching2 : MonoBehaviour
                     AllGridFilled = true;
                 }
                 BigMove++;
-                print("BigMove3: " + BigMove);
+                //print("BigMove3: " + BigMove);
             }
             if (AllRowFilled && AllColumnFilled && AllGridFilled)
             {
                 AllFilled = true;
                 BigMove++;
-                print("BigMove4: " + BigMove);
+                //print("BigMove4: " + BigMove);
             }
         }
         else if (board[row, col] != 0 && c == 0)
@@ -382,7 +382,7 @@ public class ConditionCheching2 : MonoBehaviour
             BigMoveChecking[NewSizeOfRow, col] -= 1;
             GridCounter[(row / 3) + 1, (col / 3) + 1] -= 1;
         }
-        print("BigMove5: " + BigMove);
+        //print("BigMove5: " + BigMove);
         return BigMove;
     }
 }

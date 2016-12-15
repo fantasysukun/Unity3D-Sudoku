@@ -17,15 +17,26 @@ public class winner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string result = ConditionCheching1.result;
-        if (ConditionCheching1.result == "Player1")
+        //string result = ConditionCheching.result;
+        string result = ConditionCheching1.WinningConditionChecking(numbercontroller.Current9X9Grid);
+        //text.text = result;
+        if (Timer.runout == true)
+        {
+            text.text = Timer.result;
+        }
+        else if (result == "Player1")
         {
             text.text = "Player1 Wins!";
         }
-        if (ConditionCheching1.result == "Player2")
+
+        else
         {
             text.text = "Player2 Wins!";
         }
+        //if (ConditionCheching.result == "Player2")
+        //{
+        //    text.text = "Player2 Wins!";
+        //}
         //text.text = "Player1 Wins!";
     }
 

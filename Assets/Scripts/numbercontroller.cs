@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class numbercontroller : MonoBehaviour {
+public class numbercontroller : MonoBehaviour
+{
 
     public static Button selectedObject;
     public static Button selectedObject2;
@@ -15,16 +16,19 @@ public class numbercontroller : MonoBehaviour {
     public int arrayPosition2 = 0;
     public static bool isOpen = false;
     public static bool isOpen2 = false;
+    public static bool isFreeze = false;
+    public static bool isFreeze2 = false;
 
     public static int[,] Current9X9Grid;
     public static int[,] Current9X9Grid2;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         selectedObject = firstObject;
         Current9X9Grid = map.easy;
         position = selectedObject.GetComponent<Menu>().Location;
-        selectedObject.image.color = new Color(255,255,255,255);
+        selectedObject.image.color = new Color(255, 255, 255, 255);
 
         selectedObject2 = firstObject2;
         Current9X9Grid2 = map.easy;
@@ -33,8 +37,13 @@ public class numbercontroller : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-          if (!isOpen) { 
+    void Update()
+    {
+        if (!isFreeze)
+        {
+            if (!isOpen)
+            {
+
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     changeColor();
@@ -58,7 +67,7 @@ public class numbercontroller : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     changeColor();
-                     if (position % 10 < 8)
+                    if (position % 10 < 8)
                     {
                         selectedObject = numberInput.inputs[arrayPosition + 1].GetComponent<Button>();
                         position = position + 1;
@@ -112,131 +121,134 @@ public class numbercontroller : MonoBehaviour {
                     selectedObject.image.color = new Color(255, 255, 255, 255);
 
                 }
-        }//ifOPen
+            }//ifOPen
 
-        if (Input.GetKeyDown("space"))
-        {
-           
-            
-
-            if (selectedObject.GetComponent<Menu>().changable)
+            if (Input.GetKeyDown("space"))
             {
-                isOpen = true;
-                if (isOpen)
+
+                if (selectedObject.GetComponent<Menu>().changable)
                 {
-                    selectedObject.GetComponent<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
-                    selectedObject.GetComponent<Menu>().setOpen();
-                    return;
+                    isOpen = true;
+                    if (isOpen)
+                    {
+                        selectedObject.GetComponent<Menu>().go.transform.position = selectedObject.transform.position + new Vector3(0, 0, -10f);
+
+                        selectedObject.GetComponent<Menu>().setOpen();
+                        return;
+                    }
+                    else
+                    {
+                        selectedObject.GetComponent<Menu>().setClose();
+                        return;
+                    }
                 }
-                else
-                {
-                    selectedObject.GetComponent<Menu>().setClose();
-                    return;
-                }
-            }   
-        }//space
+            }//space
+        }//isFreeze
+
         /************************/
-        if (!isOpen2)
+        if (!isFreeze2)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (!isOpen2)
             {
-                changeColor2();
-
-                if (position2 % 10 > 0)
+                if (Input.GetKeyDown(KeyCode.A))
                 {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 - 1].GetComponent<Button>();
-                    arrayPosition2 = arrayPosition2 - 1;
-                    position2 = position2 - 1;
+                    changeColor2();
+
+                    if (position2 % 10 > 0)
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 - 1].GetComponent<Button>();
+                        arrayPosition2 = arrayPosition2 - 1;
+                        position2 = position2 - 1;
+                    }
+                    else
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 + 8].GetComponent<Button>();
+                        position2 = position2 + 8;
+                        arrayPosition2 = arrayPosition2 + 8;
+                    }
+                    selectedObject2.image.color = new Color(255, 255, 255, 255);
+
                 }
-                else
+
+                if (Input.GetKeyDown(KeyCode.D))
                 {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 + 8].GetComponent<Button>();
-                    position2 = position2 + 8;
-                    arrayPosition2 = arrayPosition2 + 8;
+                    changeColor2();
+                    if (position2 % 10 < 8)
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 + 1].GetComponent<Button>();
+                        position2 = position2 + 1;
+                        arrayPosition2 = arrayPosition2 + 1;
+                    }
+                    else
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 - 8].GetComponent<Button>();
+                        position2 = position2 - 8;
+                        arrayPosition2 = arrayPosition2 - 8;
+                    }
+
+                    selectedObject2.image.color = new Color(255, 255, 255, 255); ;
                 }
-                selectedObject2.image.color = new Color(255, 255, 255, 255);
 
-            }
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    changeColor2();
 
-            if (Input.GetKeyDown(KeyCode.D))
+                    if (position2 / 10 > 0)
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 - 9].GetComponent<Button>();
+                        position2 = position2 - 10;
+                        arrayPosition2 = arrayPosition2 - 9;
+                    }
+                    else
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 + 72].GetComponent<Button>();
+                        position2 = position2 + 80;
+                        arrayPosition2 = arrayPosition2 + 72;
+                    }
+                    selectedObject2.image.color = new Color(255, 255, 255, 255);
+                }
+
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    changeColor2();
+
+                    if (position2 / 10 < 8)
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 + 9].GetComponent<Button>();
+                        position2 = position2 + 10;
+                        arrayPosition2 = arrayPosition2 + 9;
+                    }
+                    else
+                    {
+                        selectedObject2 = numberInput2.inputs2[arrayPosition2 - 72].GetComponent<Button>();
+                        position2 = position2 - 80;
+                        arrayPosition2 = arrayPosition2 - 72;
+                    }
+                    selectedObject2.image.color = new Color(255, 255, 255, 255);
+
+                }
+            }//ifOPen
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                changeColor2();
-                if (position2 % 10 < 8)
+
+                if (selectedObject2.GetComponentInChildren<Menu>().changable)
                 {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 + 1].GetComponent<Button>();
-                    position2 = position2 + 1;
-                    arrayPosition2 = arrayPosition2 + 1;
+                    isOpen2 = true;
+                    if (isOpen2)
+                    {
+                        selectedObject2.GetComponentInChildren<Menu>().go.transform.position = selectedObject2.transform.position + new Vector3(0, 0, -10f);
+                        selectedObject2.GetComponentInChildren<Menu>().setOpen();
+                        return;
+                    }
+                    else
+                    {
+                        selectedObject2.GetComponentInChildren<Menu>().setClose();
+                        return;
+                    }
                 }
-                else
-                {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 - 8].GetComponent<Button>();
-                    position2 = position2 - 8;
-                    arrayPosition2 = arrayPosition2 - 8;
-                }
-
-                selectedObject2.image.color = new Color(255, 255, 255, 255); ;
-            }
-
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                changeColor2();
-
-                if (position2 / 10 > 0)
-                {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 - 9].GetComponent<Button>();
-                    position2 = position2 - 10;
-                    arrayPosition2 = arrayPosition2 - 9;
-                }
-                else
-                {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 + 72].GetComponent<Button>();
-                    position2 = position2 + 80;
-                    arrayPosition2 = arrayPosition2 + 72;
-                }
-                selectedObject2.image.color = new Color(255, 255, 255, 255);
-            }
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                changeColor2();
-
-                if (position2 / 10 < 8)
-                {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 + 9].GetComponent<Button>();
-                    position2 = position2 + 10;
-                    arrayPosition2 = arrayPosition2 + 9;
-                }
-                else
-                {
-                    selectedObject2 = numberInput2.inputs2[arrayPosition2 - 72].GetComponent<Button>();
-                    position2 = position2 - 80;
-                    arrayPosition2 = arrayPosition2 - 72;
-                }
-                selectedObject2.image.color = new Color(255, 255, 255, 255);
-
-            }
-        }//ifOPen
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-
-            if (selectedObject2.GetComponentInChildren<Menu>().changable)
-            {
-                isOpen2 = true;
-                if (isOpen2)
-                {
-                    selectedObject2.GetComponentInChildren<Menu>().go.transform.position = selectedObject2.transform.position + new Vector3(0, 0, -10f);
-                    selectedObject2.GetComponentInChildren<Menu>().setOpen();
-                    return;
-                }
-                else
-                {
-                    selectedObject2.GetComponentInChildren<Menu>().setClose();
-                    return;
-                }
-            }
-        }//space
-
+            }//space
+        }//isFreeze2
     }//update
 
     void changeColor()
@@ -250,8 +262,9 @@ public class numbercontroller : MonoBehaviour {
             {
                 selectedObject.image.color = new Color(255, 0, 37, 0.5f);
             }
-            
-        else {
+
+        else
+        {
             selectedObject.image.color = new Color(255, 255, 255, 0);
         }
     }
@@ -266,7 +279,8 @@ public class numbercontroller : MonoBehaviour {
             {
                 selectedObject2.image.color = new Color(255, 0, 37, 0.5f);
             }
-        else {
+        else
+        {
             selectedObject2.image.color = new Color(255, 255, 255, 0);
         }
     }

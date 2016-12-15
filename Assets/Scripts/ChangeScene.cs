@@ -9,4 +9,12 @@ public class ChangeScene : MonoBehaviour
     {
         SceneManager.LoadScene(changeTheScene);
     }
+    public void RestartchangeToScene(int changeTheScene)
+    {
+        level.easy = false;
+        level.med = false;
+        level.hard = false;
+        SceneManager.LoadScene(changeTheScene);
+    }
+
 }

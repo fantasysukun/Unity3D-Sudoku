@@ -142,14 +142,15 @@ public class numberMenuController2 : MonoBehaviour
                 numbercontroller.isOpen2 = false;
                 GetComponentInParent<Menu>().setClose();
 
-                if (ConditionCheching.isValid(numbercontroller.Current9X9Grid2, Row, Col, selectedValue))
+                if (ConditionCheching2.isValid(numbercontroller.Current9X9Grid2, Row, Col, selectedValue))
                 {
                     numbercontroller.selectedObject2.GetComponent<Menu>().isValid = true;
                     isValid = true;
                     numbercontroller.selectedObject2.image.color = new Color(1, 1, 1, 1f);
 
+                    GameRules.GmaeRuleChecking_And_Scoring("Player2", Row, Col, selectedValue, numbercontroller.Current9X9Grid2);
                     numbercontroller.Current9X9Grid2[Row, Col] = selectedValue;
-                    GameRules.GmaeRuleChecking_And_Scoring("Player2", Row, Col, numbercontroller.Current9X9Grid2);
+                    ConditionCheching2.WinningConditionChecking(numbercontroller.Current9X9Grid);
                     return;
                 }
                 else
@@ -157,7 +158,9 @@ public class numberMenuController2 : MonoBehaviour
                     numbercontroller.selectedObject2.GetComponent<Menu>().isValid = false;
                     isValid = false;
                     numbercontroller.selectedObject2.image.color = new Color(255, 0, 37, 0.5f);
+                    GameRules.GmaeRuleChecking_And_Scoring("Player2", Row, Col, selectedValue, numbercontroller.Current9X9Grid2);
                     numbercontroller.Current9X9Grid2[Row, Col] = selectedValue;
+                    ConditionCheching2.WinningConditionChecking(numbercontroller.Current9X9Grid);
                     return;
                 }
             }

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-
-public class GameRules : MonoBehaviour {
+public class GameRules : MonoBehaviour
+{
 
     public int Difficult;
     public static int DifficultBonus;
@@ -12,8 +13,22 @@ public class GameRules : MonoBehaviour {
     float BigMoveDropTime2;
     float P_BigMoveDropTime1;
     float P_BigMoveDropTime2;
+
+    /********************************/
+    public static string target;
+    public GameObject player1freezeScreen;
+    public GameObject player2freezeScreen;
+    public GameObject Player1freezeBlack;
+    public GameObject Player2freezeBlack;
+    public static bool waitActive2 = false;
+    public static bool waitActive4 = false;
+    public static bool BlackActive = false;
+
+    float FirstTime;
+    float SecondTime;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         Difficult = 1;
         TimeInMinutes = 20;
@@ -27,7 +42,8 @@ public class GameRules : MonoBehaviour {
 
     void Update()
     {
-        BonusDroppingTime += Time.deltaTime;
+        float second = Time.deltaTime;
+        BonusDroppingTime += second;
         if (BonusDroppingTime >= 20.0)
         {
             DifficultBonus -= 1;
@@ -35,36 +51,83 @@ public class GameRules : MonoBehaviour {
             BonusDroppingTime = 0;
         }
 
-        
         if (BigMove1.Power >= 2)
         {
-            if(P_BigMoveDropTime1 < BigMove1.Power)
+            if (P_BigMoveDropTime1 < BigMove1.Power)
             {
                 BigMoveDropTime1 -= 3;
             }
             P_BigMoveDropTime1 = BigMove1.Power;
 
-            BigMoveDropTime1 += Time.deltaTime;
+            BigMoveDropTime1 += second;
+            //print("Time.deltaTime: " + second);
+            //print("Time.deltaTime: " + Time.deltaTime);
             if (BigMoveDropTime1 >= 3.0)
             {
+                Debug.Log("Running!!!!!!!!!!!!!!!!!!!!!!!!!!!11" );
                 BigMove1.Power = 1;
+                /**************************/
+                /*
+                if (waitActive2)
+                {
+                    StartCoroutine(FreezeScreen(2));
+                }
+                if (waitActive4)
+                {
+                    StartCoroutine(FreezeScreen(4));
+                }
+                if (BlackActive)
+                {
+                    StartCoroutine(FreezeScreen(3));
+                }
+                */
+                /*************************/
+                BigMoveDropTime1 = 0;
+                Debug.Log("BigMove1.Power Resest: " + BigMove1.Power);
             }
-            Debug.Log("BigMove1.Power Resest: " + BigMove1.Power);
-            BigMoveDropTime1 = 0;
+            
+            
         }
 
-        
+
         if (BigMove2.Power >= 2)
         {
-            BigMoveDropTime2 += Time.deltaTime;
+            if (P_BigMoveDropTime2 < BigMove2.Power)
+            {
+                BigMoveDropTime2 -= 3;
+            }
+            P_BigMoveDropTime2 = BigMove2.Power;
+
+            BigMoveDropTime2 += second;
             if (BigMoveDropTime2 >= 3.0)
             {
+                Debug.Log("Wrong!!!! ");
                 BigMove2.Power = 1;
+                
+                /**************************/
+                /*
+                if (waitActive2)
+                {
+                    StartCoroutine(FreezeScreen(2));
+                }
+                if (waitActive4)
+                {
+                    StartCoroutine(FreezeScreen(4));
+                }
+                if (BlackActive)
+                {
+                    StartCoroutine(FreezeScreen(3));
+                }
+                */
+                /*************************/
             }
             Debug.Log("BigMove1.Power Resest: " + BigMove2.Power);
             BigMoveDropTime2 = 0;
         }
+
+
     }
+
 
     //Plz using this method for All Violation Checking 
     /*
@@ -172,36 +235,158 @@ public class GameRules : MonoBehaviour {
             BigMove += ConditionCheching2.Specialchecking(PlayerCurrentMap, Row, Col, CurrentInput);
         }
 
+        if (Player.Equals("Player1"))
+        {
+            target = "Player2";
+        }
+        else
+        {
+            target = "Player1";
+        }
+
+        if (GetPlayerBigMove(Player) == 1)
+        {
+            waitActive2 = true;
+        }
+        else if (GetPlayerBigMove(Player) == 3)
+        {
+            waitActive4 = true;
+        }
+        else if (GetPlayerBigMove(Player) == 4)
+        {
+            BlackActive = true;
+        }
+
         /*
         Debug.Log("score: " + score);
         Debug.Log("DifficultBonus: " + DifficultBonus);
         Debug.Log("BigMove: " + BigMove);
         */
         //First checking for Any violation 
-        if (!ConditionCheching1.isValid(PlayerCurrentMap, Row, Col, CurrentInput))
+        if (ConditionCheching1.isValid(PlayerCurrentMap, Row, Col, CurrentInput))
         {
             //Debug.Log("ViolationChecking True Running!!!");
-            Debug.Log("ViolationChecking True Running!!!");
+            //Debug.Log("ViolationChecking True Running!!!");
+            Debug.Log("BigMove1: " + BigMove);
             SetPlayerBigMove(Player, BigMove);
-            score = -10 * DifficultBonus * GetPlayerBigMove(Player);
+            score = 10 * DifficultBonus * GetPlayerBigMove(Player);
+            Debug.Log("GetPlayerBigMove(Player): " + GetPlayerBigMove(Player));
             SetPlayerScore(Player, score);
+            Debug.Log("BigMove2: " + BigMove);
         }
         else
         {
+            Debug.Log("BigMove3: " + BigMove);
             SetPlayerBigMove(Player, BigMove);
-            score = 10 * DifficultBonus * GetPlayerBigMove(Player);
+            score = -10 * DifficultBonus * GetPlayerBigMove(Player);
             SetPlayerScore(Player, score);
+            Debug.Log("BigMove4: " + BigMove);
         }
         Debug.Log("score: " + score);
 
         //Special checking  will be added later
         string result = ConditionCheching1.WinningConditionChecking(numbercontroller.Current9X9Grid);
-        Debug.Log("numbercontroller.Current9X9Grid: " + numbercontroller.Current9X9Grid[8, 8]);
-        Debug.Log("result: " + result);
+        //Debug.Log("numbercontroller.Current9X9Grid: " + numbercontroller.Current9X9Grid[8, 8]);
+        //Debug.Log("result: " + result);
+
 
     }
 
 
+    IEnumerator FreezeScreen(int second)
+    {
 
+        if (second == 2)
+        {
+            waitActive2 = true;
+        }
+        else if (second == 3)
+        {
+            BlackActive = true;
+        }
+        else
+        {
+            waitActive4 = true;
+        }
+
+
+        if (BlackActive)
+        {
+            if (target == "Player1")
+            {
+                numbercontroller.isFreeze = true;
+                Player1freezeBlack.SetActive(true);
+                Player1freezeBlack.transform.FindChild("count").GetComponent<Text>().text = second.ToString() + "s ";
+            }
+            else
+            {
+                numbercontroller.isFreeze2 = true;
+                Player2freezeBlack.SetActive(true);
+                Player2freezeBlack.transform.FindChild("count").GetComponent<Text>().text = second.ToString() + "s ";
+            }
+        }
+        else
+        {
+            if (target == "Player1")
+            {
+                numbercontroller.isFreeze = true;
+                player1freezeScreen.SetActive(true);
+                player1freezeScreen.transform.FindChild("count").GetComponent<Text>().text = second.ToString() + "s ";
+            }
+            else
+            {
+                numbercontroller.isFreeze2 = true;
+                player2freezeScreen.SetActive(true);
+                player2freezeScreen.transform.FindChild("count").GetComponent<Text>().text = second.ToString() + "s ";
+            }
+        }
+
+
+        yield return new WaitForSeconds(second);
+
+        if (BlackActive)
+        {
+            if (target == "Player1")
+            {
+                numbercontroller.isFreeze = false;
+                Player1freezeBlack.SetActive(false);
+            }
+            else
+            {
+                numbercontroller.isFreeze = false;
+                Player2freezeBlack.SetActive(false);
+            }
+        }
+        else
+        {
+            if (target == "Player1")
+            {
+                numbercontroller.isFreeze = false;
+                player1freezeScreen.SetActive(false);
+
+            }
+            else
+            {
+                numbercontroller.isFreeze2 = false;
+                player2freezeScreen.SetActive(false);
+            }
+        }
+
+
+
+        if (second == 2)
+        {
+            waitActive2 = false;
+        }
+        else if (second == 3)
+        {
+            BlackActive = false;
+        }
+        else
+        {
+            waitActive4 = false;
+        }
+
+    }//FreeScreens
 
 }
