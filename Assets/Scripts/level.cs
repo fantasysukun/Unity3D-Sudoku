@@ -8,6 +8,7 @@ public class level : MonoBehaviour
     public static bool med = false;
     public static bool hard = false;
     string result = "";
+
     Text text;
 
     void Awake()
